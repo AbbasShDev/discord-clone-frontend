@@ -1,23 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { Typography } from "@mui/material";
+import { toast } from "react-toastify";
 import AuthBox from "../components/AuthBox";
 import InputWithLabel from "../components/InputWithLabel";
 import PrimaryButton from "../components/PrimaryButton";
 import RedirectInfo from "../components/RedirectInfo";
+import { validateLoginForm } from "../utils/validator";
+import { login, reset } from "../features/auth/authSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFormVaild, setIsFormVaild] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isError, isSuccess, isLoading, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      navigate("/dashboard");
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, isLoading, message]);
+
+  useEffect(() => {
+    setIsFormVaild(validateLoginForm(email, password));
+  }, [email, password, setIsFormVaild]);
 
   const handleLogin = () => {
-    console.log("Login");
+    dispatch(login({ email, password }));
   };
 
   return (
-    <AuthBox>
+    <AuthBox loading={isLoading}>
       <Typography variant="h5" sx={{ color: "white" }}>
         Welcome Back!
       </Typography>
@@ -40,14 +65,13 @@ const Login = () => {
       />
       <PrimaryButton
         label="Login"
-        style={{ marginTop: "30px" }}
+        style={{ marginTop: "30px", marginBottom: "10px" }}
         onClick={handleLogin}
         disabled={!isFormVaild}
       />
       <RedirectInfo
         text="Don't have an account?"
         redirectText="Create an account"
-        style={{ marginTop: "10px" }}
         redirectHandler={() => navigate("/register")}
       />
     </AuthBox>

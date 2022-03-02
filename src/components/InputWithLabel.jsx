@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@mui/system";
 
-const InputWrapper = styled("dive")({
+const InputWrapper = styled("div")({
   width: "100%",
   display: "flex",
   justifyContent: "center",
@@ -42,7 +42,6 @@ const InputWithLabel = (props) => {
         type={type}
         placeholder={placeholder}
         onChange={handleValueChange}
-        {...props}
       />
     </InputWrapper>
   );
