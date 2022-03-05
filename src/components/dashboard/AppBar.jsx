@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from "@mui/system";
+import AppBarDropdown from "../AppBarDropdown";
 
 const AppBarContainer = styled("div")({
   position: "absolute",
@@ -16,7 +17,11 @@ const AppBarContainer = styled("div")({
 });
 
 const AppBar = () => {
-  return <AppBarContainer></AppBarContainer>;
+  return (
+    <AppBarContainer>
+      <AppBarDropdown />
+    </AppBarContainer>
+  );
 };
 
 export default AppBar;

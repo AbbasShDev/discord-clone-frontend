@@ -24,6 +24,9 @@ const logout = async () => {
   const response = await apiService.post("/api/auth/logout");
 
   localStorage.removeItem("user");
+  window.location.href = "/login";
+
+  return response.data;
 };
 
 const authService = {
