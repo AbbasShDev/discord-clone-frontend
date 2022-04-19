@@ -1,26 +1,26 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { styled } from "@mui/system";
 import { Box, Avatar, Typography, Tooltip, IconButton } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
 import IsOnlineIndicator from "../IsOnlineIndicator";
+import {
+  acceptInviation,
+  rejectInviation,
+} from "../../features/pendingInvitations/pendingInvitationsSlice";
 
-const PendingFriendsListItem = ({
-  id,
-  username,
-  email,
-  acceptFriendInvitaion = () => {},
-  rejectFriendInvitaion = () => {},
-}) => {
+const PendingFriendsListItem = ({ id, username, email }) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const dispatch = useDispatch();
 
   const handleAcceptFriendInvitaion = () => {
-    acceptFriendInvitaion({ id });
+    dispatch(acceptInviation({ id }));
     setButtonDisabled(true);
   };
 
   const handleRejectFriendInvitaion = () => {
-    rejectFriendInvitaion({ id });
+    dispatch(rejectInviation({ id }));
     setButtonDisabled(true);
   };
 
