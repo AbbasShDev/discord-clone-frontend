@@ -20,19 +20,15 @@ const AddFriendDialog = ({ isDialogOpen, closeDialogHnadler }) => {
   const [isVaildForm, setIsVaildForm] = useState(false);
   const dispatch = useDispatch();
 
-  const { isError, isSuccess, message } = useSelector((state) => state.friends);
+  const { isError, message } = useSelector((state) => state.friends);
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
 
-    if (isSuccess) {
-      toast.success(`Invitaion has been sent to ${email}`);
-    }
-
     dispatch(reset());
-  }, [isError, isSuccess, message]);
+  }, [isError, message]);
 
   const handleSendInvitaion = () => {
     dispatch(sendInviation({ email }));

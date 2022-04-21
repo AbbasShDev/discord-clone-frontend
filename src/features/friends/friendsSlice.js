@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import friendsService from "./friendsService";
+import { toast } from "react-toastify";
 
 const initialState = {
   friends: [],
@@ -34,11 +35,33 @@ export const friendsSlice = createSlice({
       state.isError = false;
       state.message = "";
     },
+    updateFriends: (state, action) => {
+      state.friends = action.payload;
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.message = "";
+    },
+    updateOnlineFriends: (state, action) => {
+      console.log(action.payload);
+      state.friends = state.friends.map((friend) => {
+        if (friend.id === action.payload) {
+          friend.isOnline = true;
+        }
+
+        return friend;
+      });
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.message = "";
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(sendInviation.fulfilled, (state) => {
         state.isSuccess = true;
+        toast.success(`Invitaion has been sent`);
       })
       .addCase(sendInviation.rejected, (state, action) => {
         state.isError = true;
@@ -47,5 +70,6 @@ export const friendsSlice = createSlice({
   },
 });
 
-export const { reset } = friendsSlice.actions;
+export const { reset, updateFriends, updateOnlineFriends } =
+  friendsSlice.actions;
 export default friendsSlice.reducer;
