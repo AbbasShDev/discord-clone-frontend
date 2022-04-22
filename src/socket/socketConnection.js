@@ -3,6 +3,7 @@ import { setPendingInvitations } from "../features/pendingInvitations/pendingInv
 import {
   updateFriends,
   updateOnlineFriends,
+  updateOfflineFriends,
 } from "../features/friends/friendsSlice";
 import { store } from "../app/store";
 
@@ -37,5 +38,11 @@ export const connectWithSocketServer = (user) => {
     const { userId } = data;
 
     store.dispatch(updateOnlineFriends(userId));
+  });
+
+  socket.on("update-offline-friends", (data) => {
+    const { userId } = data;
+
+    store.dispatch(updateOfflineFriends(userId));
   });
 };

@@ -56,6 +56,20 @@ export const friendsSlice = createSlice({
       state.isError = false;
       state.message = "";
     },
+    updateOfflineFriends: (state, action) => {
+      console.log(action.payload);
+      state.friends = state.friends.map((friend) => {
+        if (friend.id === action.payload) {
+          friend.isOnline = false;
+        }
+
+        return friend;
+      });
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.message = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -70,6 +84,10 @@ export const friendsSlice = createSlice({
   },
 });
 
-export const { reset, updateFriends, updateOnlineFriends } =
-  friendsSlice.actions;
+export const {
+  reset,
+  updateFriends,
+  updateOnlineFriends,
+  updateOfflineFriends,
+} = friendsSlice.actions;
 export default friendsSlice.reducer;
